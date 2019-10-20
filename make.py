@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import re
 import sys
@@ -41,10 +42,12 @@ def build():
 
   #fill in the project template
   for layer in template["Layer"]:
-    if layer["id"] == "shoreline_300":
-      layer["Datasource"]["file"] = config["shoreline_300"]
-    elif layer["id"] in ("processed_p", "processed_p_outline"):
-      layer["Datasource"]["file"] = config["processed_p"]
+    if layer["id"] == "land-low":
+      layer["Datasource"]["file"] = config["land-low"]
+    elif layer["id"] == "land-high":
+      layer["Datasource"]["file"] = config["land-high"]
+    elif layer["id"] == "ne_places":
+      layer["Datasource"]["file"] = config["ne_places"]
     else:
       # Assume all other layers are PostGIS layers
       for opt, val in config["postgis"].iteritems():
@@ -85,15 +88,18 @@ def pull():
   defaultconfig["postgis"]["password"] = ""
   defaultconfig["postgis"]["extent"] = "-20037508.34 -20037508.34 20037508.34 20037508.34"
   defaultconfig["name"] = "OSM Bright"
-  defaultconfig["processed_p"] = "http://tilemill-data.s3.amazonaws.com/osm/coastline-good.zip"
-  defaultconfig["shoreline_300"] = "http://tilemill-data.s3.amazonaws.com/osm/shoreline_300.zip"
+  defaultconfig["land-high"] = "http://data.openstreetmapdata.com/land-polygons-split-3857.zip"
+  defaultconfig["land-low"] = "http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip"
+  defaultconfig["ne_places"] = "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-populated-places-simple.zip"
 
   project["name"] = defaultconfig["name"]
   for layer in project["Layer"]:
-    if layer["id"] == "shoreline_300":
-      layer["Datasource"]["file"] = defaultconfig["shoreline_300"]
-    elif layer["id"] in ("processed_p", "processed_p_outline"):
-      layer["Datasource"]["file"] = defaultconfig["processed_p"]
+    if layer["id"] == "land-low":
+      layer["Datasource"]["file"] = defaultconfig["land-low"]
+    elif layer["id"] == "land-high":
+      layer["Datasource"]["file"] = defaultconfig["land-high"]
+    elif layer["id"] == "ne_places":
+      layer["Datasource"]["file"] = defaultconfig["ne_places"]
     else:
       # Assume all other layers are PostGIS layers
       for opt, val in defaultconfig["postgis"].iteritems():

@@ -6,11 +6,6 @@
 
 /* Font sets are defined in palette.mss */
 
-/* Mapnik does not yet support character-spacing adjustments for 
-   labels placed along a line. We can fake this using the replace()
-   function in the text-name parameter by replacing each character
-   with itself followed by one or more spaces. */
-
 /* ================================================================== */
 /* PLACE NAMES
 /* ================================================================== */
@@ -281,29 +276,29 @@
     [type='park'][zoom>=10] {
       text-face-name: @sans_lt_italic;
       text-fill: @park * 0.6;
-      text-halo-fill: lighten(@park, 10);
+      text-halo-fill: lighten(@park, 10%);
     }
     [type='golf_course'][zoom>=10] {
       text-fill: @sports * 0.6;
-      text-halo-fill: lighten(@sports, 10);
+      text-halo-fill: lighten(@sports, 10%);
     }
     [type='cemetery'][zoom>=10] {
       text-fill: @cemetery * 0.6;
-      text-halo-fill: lighten(@cemetery, 10);
+      text-halo-fill: lighten(@cemetery, 10%);
     }
     [type='hospital'][zoom>=10] {
       text-fill: @hospital * 0.6;
-      text-halo-fill: lighten(@hospital, 10);
+      text-halo-fill: lighten(@hospital, 10%);
     }
     [type='college'][zoom>=10],
     [type='school'][zoom>=10],
     [type='university'][zoom>=10] {
       text-fill: @school * 0.6;
-      text-halo-fill: lighten(@school, 10);
+      text-halo-fill: lighten(@school, 10%);
     }
     [type='water'][zoom>=10] {
       text-fill: @water * 0.6;
-      text-halo-fill: lighten(@water, 10);
+      text-halo-fill: lighten(@water, 10%);
     }
   }
   [zoom=15][area>1600000],
@@ -358,20 +353,13 @@
   text-placement: line;
   text-min-distance: 400;
   text-size: 10;
-  [type='river'][zoom=14],
-  [type='canal'][zoom=16],
-  [type='stream'][zoom=18] {
-    text-name: "[name].replace('([\S\ ])','$1 ')";
-  }
   [type='river'][zoom=15],
   [type='canal'][zoom=17] {
     text-size: 11;
-    text-name: "[name].replace('([\S\ ])','$1 ')";
   }
   [type='river'][zoom>=16],
   [type='canal'][zoom=18] {
     text-size: 14;
-    text-name: "[name].replace('([\S\ ])','$1 ')";
     text-spacing: 300;
   }
 }
@@ -455,18 +443,29 @@
 /* ================================================================== */
 /* ONE-WAY ARROWS
 /* ================================================================== */
-
-#motorway_label[oneway!=0][zoom>=16],
-#mainroad_label[oneway!=0][zoom>=16],
-#minorroad_label[oneway!=0][zoom>=16] {
-  marker-placement:line;
-  marker-max-error: 0.5;
-  marker-spacing: 200;
-  marker-file: url(img/icon/oneway.svg);
-  [oneway=-1] { marker-file: url(img/icon/oneway-reverse.svg); }
-  [zoom=16] { marker-transform: "scale(0.5)"; }
-  [zoom=17] { marker-transform: "scale(0.75)"; }
+#motorway_label[zoom>=16],
+#mainroad_label[zoom>=16],
+#minorroad_label[zoom>=16] {
+  [oneway = 'yes'],
+  [oneway='-1'] {
+     marker-placement:line;
+     marker-max-error: 0.5;
+     marker-spacing: 200;
+     marker-file: url(img/icon/oneway.svg);
+     [oneway='-1'] { marker-file: url(img/icon/oneway-reverse.svg); }
+     [zoom=16] { marker-transform: "scale(0.5)"; }
+     [zoom=17] { marker-transform: "scale(0.75)"; }
+  }
 }
 
+
+/* ================================================================== */
+/* TRAIN STATIONS
+/* ================================================================== */
+
+#train_stations[zoom>15]{
+  point-file:url('img/icon/rail-12.png');
+  [zoom>=17] { point-file:url('img/icon/rail-18.png'); }
+}
 
 /* ****************************************************************** */

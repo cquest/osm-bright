@@ -10,9 +10,8 @@
 /* LANDUSE & LANDCOVER
 /* ================================================================== */
 
-#land[zoom>=0][zoom<6],
-#shoreline_300[zoom>=6][zoom<10],
-#processed_p[zoom>=10] {
+#land-low[zoom>=0][zoom<10],
+#land-high[zoom>=10] {
   polygon-fill: @land;
   polygon-gamma: 0.75;
 }
@@ -161,7 +160,7 @@ Map { background-color: @water; }
 /* ================================================================== */
 
 
-#admin[admin_level=2][zoom>1] {
+#admin[admin_level='2'][zoom>1] {
   line-color:@admin_2;
   line-width:0.5;
   [zoom=2] { line-opacity: 0.25; }
